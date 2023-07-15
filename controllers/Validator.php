@@ -1,4 +1,5 @@
 <?php   
+    require_once "models/User.php";
     class Validator {
         private $data;
         private $rules;
@@ -31,13 +32,33 @@
                 $this->addError($field, 'required');
             }
 
-            if (strpos($rule, 'max:') !== false) {
+            else if (strpos($rule, 'max:') !== false) {
                 $maxLength = explode(':', $rule)[1];
                 $wordCount = str_word_count($value);
                 if ($wordCount > $maxLength) {
                     $this->addError($field, 'max');
                 }
             }
+            else if (strpos($rule, 'min:') !== false) {
+                $minLength = explode(':', $rule)[1];
+                if (strlen($value) < $minLength) {
+                    $this->addError($field, 'min');
+                }
+            }
+            
+            else if ($rule === 'email') {
+                if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
+                    $this->addError($field, 'email');
+                }
+            }
+            else if ($rule === 'unique') {
+                $mod_user = new User();
+                $isDuplicate = $mod_user->isEmailDuplicate($mod_user->table, $value);
+                if ($isDuplicate) {
+                    $this->addError($field, 'unique');
+                }
+            }
+            
         }
 
         private function addError($field, $rule) {
