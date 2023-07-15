@@ -2,6 +2,7 @@
 session_start();
 date_default_timezone_set('Asia/Ho_Chi_Minh');
 require_once "controllers/ArticleController.php";
+require_once "controllers/UserController.php";
 $mod=isset($_GET['mod'])?$_GET['mod']:'article';
 $act=isset($_GET['act'])?$_GET['act']:'index';
 if (isset($_GET['mod'])){

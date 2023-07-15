@@ -13,7 +13,7 @@
     <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
     data-sidebar-position="fixed" data-header-position="fixed">
         <div class="body-wrapper">
-            <?php require_once("include/header.php") ?>
+            <?php require_once("views/include/header.php") ?>
             <div class="container-fluid">
                 <div class="row">
                   <div class="col-lg-12 d-flex align-items-stretch">
@@ -21,7 +21,9 @@
                       <div class="card-body p-4">
                         <div class="search-box">
                           <h5 class="card-title fw-semibold mb-4">Danh sách bài viết</h5>
-                          <a href="index.php?mod=article&act=create" class="btn btn-success">Thêm</a>
+                          <?php if ($_SESSION['is_logged_in']): ?>
+                            <a href="index.php?mod=article&act=create" class="btn btn-success">Thêm</a>
+                          <?php endif; ?>
                         </div>                
                         <div class="table-responsive">
                           <table class="table align-middle">
@@ -49,7 +51,7 @@
                                     <h6 class="fw-semibold mb-0">Sửa đổi</h6>
                                 </th>
                                 <th class="border-bottom-0">
-                                    <h6 class="fw-semibold mb-0 text-center"></h6>
+                                    <h6 class="fw-semibold mb-0"></h6>
                                 </th>
                               </tr>
                             </thead>                    
@@ -79,9 +81,11 @@
                                 <td class="border-bottom-0">
                                   <p class="mb-0 fw-normal"><?= $item['update_at'] ?></p>
                                 </td>
-                                <td class="border-bottom-0" style="width:200px;">
-                                    <a href="index.php?mod=article&act=edit&id=<?= $item['id'] ?>" class="btn btn-info">Xem</a>
-                                    <a id="delete" href="index.php?mod=article&act=delete&id=<?= $item['id'] ?>" onclick="showAlert(event)" class="btn btn-danger">Xoá</a>
+                                <td class="border-bottom-0" style="width:160px;">
+                                <?php if ($_SESSION['is_logged_in']): ?>
+                                  <a href="index.php?mod=article&act=edit&id=<?= $item['id'] ?>" class="btn btn-info">Xem</a>
+                                  <a id="delete" href="index.php?mod=article&act=delete&id=<?= $item['id'] ?>" onclick="showAlert(event)" class="btn btn-danger">Xoá</a>
+                                <?php endif; ?>
                                 </td>
                               </tr>
                               <?php } ?>

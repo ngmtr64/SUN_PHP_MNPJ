@@ -11,7 +11,7 @@
 <body>
     <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
     data-sidebar-position="fixed" data-header-position="fixed">
-        <?php require_once("include/header.php") ?>
+        <?php require_once("views/include/header.php") ?>
         <div class="body-wrapper">
             <div class="container-fluid">
                 <div class="row">

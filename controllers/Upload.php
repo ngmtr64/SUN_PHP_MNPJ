@@ -13,10 +13,10 @@
         $types = trim($types, ',');
     
         if (!isset($_FILES[$input_name])) {
-            $errors[] = "Không có dữ liệu file";
+            $errors[] = "Vui lòng chọn tệp tin";
             $upload_status = false;
         } else if ($_FILES[$input_name]['error'] == 4) {
-            $errors[] = "Không có dữ liệu file";
+            $errors[] = "Vui lòng chọn tệp tin";
             $upload_status = false;
         } else if ($_FILES[$input_name]['error'] != 0) {
             $errors[] = "Dữ liệu upload bị lỗi";

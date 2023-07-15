@@ -7,6 +7,25 @@
             $connection = new Connection();
             $this -> conn = $connection -> connect();
         }
+        public function isEmailDuplicate($table, $email) {
+            $query = "SELECT COUNT(*) as count FROM $table WHERE email = ?";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bind_param('s', $email);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $row = $result->fetch_assoc();
+            $count = $row['count'];   
+            return $count > 0;
+        }
+        public function login($table,$email){
+            $query = "SELECT * FROM ".$table. " WHERE email = '".$email."'";
+            $result = $this->conn->query($query);
+            while($row = $result->fetch_assoc()) {
+                $user = $row;
+            };
+            return $user;
+
+        }   
         public function select($table,$columns = '*'){
             if ($columns == '*') {
                 $query = "SELECT * FROM " . $table;
@@ -31,6 +50,7 @@
             };
             return $data;
         }
+        
         public function getId($table,$id){
             $query = "SELECT * from $table WHERE id =".$id;
             $result = $this->conn->query($query);

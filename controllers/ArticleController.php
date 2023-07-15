@@ -8,17 +8,16 @@ class ArticleController extends BaseController
     var $mod_article;
     function __construct(){
         $this->mod_article=new Article();
-        
     }
     public function index(){
         $articles = $this->mod_article->getList();
-        $this->view('crud-list.php', [
+        $this->view('crud/crud-list.php', [
             'articles' => $articles,
         ]);
     }
 
     public function create(){
-        $this->view('crud-add.php');
+        $this->view('crud/crud-add.php');
     }
     public function store(){
         $data = $_POST;
@@ -27,7 +26,7 @@ class ArticleController extends BaseController
         $file_infor = pathinfo($_FILES['thumbnail']['name']);
         $upload = uploadFile('thumbnail' ,$target_dir , array ('jpg', 'jpeg', 'png', 'gif', 'webp'), 1);
         $rules = [
-            'title' => 'required|max:120',
+            'title' => 'max:120|required',
             'author' => 'required',
             'description' => 'required',
         ];
@@ -64,8 +63,8 @@ class ArticleController extends BaseController
             
             $data['date'] = date("Y-m-d H:i:s");
             $status = $this->mod_article->store($data);
-            if($status) setcookie('msg','Thêm mới thành công',time()+3);
-                else setcookie('msgf','Thêm mới thất bại',time()+3);
+            if($status) setcookie('msg','Thêm mới thành công',time()+2);
+                else setcookie('msgf','Thêm mới thất bại',time()+2);
             $this->redirect('index.php?mod=article&act=index');
         }
         
@@ -73,7 +72,7 @@ class ArticleController extends BaseController
     public function edit(){
         $id = $_GET['id'];
         $article = $this->mod_article->find($id);
-        $this->view('crud-edit.php',[
+        $this->view('crud/crud-edit.php',[
             'article' => $article,
         ]);
     }
@@ -81,9 +80,9 @@ class ArticleController extends BaseController
         $id = $_POST['id'];
         $data = $_POST;
         $rules = [
-            'title' => 'required|max:60',
+            'title' => '|required',
             'author' => 'required',
-            'description' => 'required|max:255',
+            'description' => 'max:255|required',
         ];
         $messages = [
             'title' => [
@@ -126,16 +125,16 @@ class ArticleController extends BaseController
             }
             $data['update_at'] = date("Y-m-d H:i:s");
             $status = $this->mod_article->edit($data,$id);
-            if($status) setcookie('msg','Cập nhật thành công',time()+3);
-            else setcookie('msgf','Cập nhật thất bại',time()+3);
+            if($status) setcookie('msg','Cập nhật thành công',time()+2);
+            else setcookie('msgf','Cập nhật thất bại',time()+2);
             $this->redirect('index.php?mod=article&act=index');
         }
     }
     public function delete(){
         $id = $_GET['id'];
         $status=$this->mod_article->destroy($id);
-        if($status) setcookie('msg','Xoá thành công',time()+3);
-        else setcookie('msgf','Xoá thất bại',time()+3);
+        if($status) setcookie('msg','Xoá thành công',time()+2);
+        else setcookie('msgf','Xoá thất bại',time()+2);
         $this->redirect('index.php?mod=article&act=index');
     }
 }
