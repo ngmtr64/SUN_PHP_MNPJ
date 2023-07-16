@@ -116,6 +116,8 @@ class ArticleController extends BaseController
             $this->redirect('back');
         } else {
             if($_FILES['thumbnail']['name']){
+                $old_thumbnail = $this->mod_article->getCurrentThumbnail($id);
+                unlink($old_thumbnail);
                 move_uploaded_file($_FILES['thumbnail']["tmp_name"], $upload[1]);
                 $data['thumbnail'] = $upload[1];
             }
@@ -129,6 +131,8 @@ class ArticleController extends BaseController
     }
     public function delete(){
         $id = $_GET['id'];
+        $thumbnail = $this->mod_article->getCurrentThumbnail($id);
+        unlink($thumbnail);
         $status=$this->mod_article->destroy($id);
         if($status) setcookie('msg','Xoá thành công',time()+2);
         else setcookie('msgf','Xoá thất bại',time()+2);
