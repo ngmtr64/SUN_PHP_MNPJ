@@ -57,7 +57,7 @@ class UserController extends BaseController
                     $_SESSION['errorMessages']['password'] = 'Mật khẩu không chính xác';
                     $this->redirect('back');
                 }
-                
+       
             } 
             else 
             {
@@ -111,7 +111,7 @@ class UserController extends BaseController
         
     }
     public function logout(){
-		$_SESSION['is_logged_in']=false;
+		unset($_SESSION['is_logged_in']);
 		unset($_SESSION['user_data']);
         setcookie('msg','Bạn đã đăng xuất khỏi hệ thống',time()+2);
 		$this->redirect('index.php?mod=article&act=index');

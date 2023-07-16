@@ -30,7 +30,6 @@
                                       value="<?php echo isset($_SESSION['old_input']['title']) ? $_SESSION['old_input']['title'] : ''; ?>" />
                                       <?php if (isset($_SESSION['errorMessages']['title'])): ?>
                                           <div class="text-danger"><?php echo $_SESSION['errorMessages']['title']; ?></div>
-                                          <?php unset($_SESSION['errorMessages']['title']); ?>
                                       <?php endif; ?>
                                   </div>
                                   <div class="mb-3 col-12">
@@ -42,7 +41,6 @@
                                     />
                                     <?php if (isset($_SESSION['errorMessages']['author'])): ?>
                                         <div class="text-danger"><?php echo $_SESSION['errorMessages']['author']; ?></div>
-                                        <?php unset($_SESSION['errorMessages']['author']); ?>
                                     <?php endif; ?>
                                   </div>
                                   <div class="mb-3 col-12">
@@ -50,15 +48,8 @@
                                     <textarea class="form-control" id="mota" rows="6" name="description"><?php echo isset($_SESSION['old_input']['description']) ? $_SESSION['old_input']['description'] : '';?></textarea>
                                     <?php if (isset($_SESSION['errorMessages']['description'])): ?>
                                         <div class="text-danger"><?php echo $_SESSION['errorMessages']['description']; ?></div>
-                                        <?php unset($_SESSION['errorMessages']['description']); ?>
                                     <?php endif; ?>
                                   </div> 
-                                  <!-- <div class="mb-3 col-6">
-                                      <label for="ngayphathanh" class="form-label">Ngày phát hành*</label>
-                                      <input 
-                                        type="date" 
-                                        class="form-control" id="date" name="date"/>
-                                  </div> -->
                                   <div class="mb-3 col-12">
                                       <label for="theloai" class="form-label">Danh mục</label>
                                       <select class="form-select form-control" id="the loai" name="category">
@@ -86,7 +77,6 @@
                                         foreach ($_SESSION['upload_status'][1] as $error) {
                                             echo '<div class="text-danger">' . $error . '</div>';
                                         }
-                                        unset($_SESSION['upload_status']);
                                     }
                                   ?>                                 
                             </div>     
@@ -108,6 +98,8 @@
     <script src="views/assets/js/script.js"></script>
     <?php 
       unset($_SESSION['old_input']); 
+      unset($_SESSION['errorMessages']); 
+      unset($_SESSION['upload_status']); 
     ?>
 </body>
 

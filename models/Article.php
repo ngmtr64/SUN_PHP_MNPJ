@@ -6,6 +6,9 @@ class Article extends Query
     public function getList() {
         return $this->select($this->table, ['id','title','thumbnail','author','category','description','date','update_at']);
     }
+    public function getCurrentThumbnail($id) {
+        return $this->getThumbnail($this->table, $id);
+    }
     
     public function store($data){
         return $this->insert($this->table,$data);

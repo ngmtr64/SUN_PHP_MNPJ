@@ -57,6 +57,12 @@
             $row = $result->fetch_assoc();
             return $row;
         }
+        public function getThumbnail($table,$id){
+            $query = "SELECT thumbnail from $table WHERE id =".$id;
+            $result = $this->conn->query($query);
+            $row = $result->fetch_assoc();
+            return $row['thumbnail'];
+        }
         protected function insert($table, $data){
             $query = "INSERT INTO $table";
             $string_1 = '';

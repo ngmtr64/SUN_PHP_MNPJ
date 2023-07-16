@@ -70,16 +70,17 @@
                                 </div>                                        
                               </div>
                               <div class="col-12 mb-3">
-                                <label for="theloai" class="form-label">Ảnh nền</label>                                 
-                                <input type="file" class="form-control" id="thumbnail" placeholder="" name="thumbnail" value="<?= $article['thumbnail'] ?>" onchange="previewImage(event)">
+                                <label for="theloai" class="form-label">Ảnh nền</label>                              
+                                <input type="file" class="form-control" id="thumbnail" value="<?= $article['thumbnail'] ?>" name="thumbnail" onchange="previewImage(event)">
                                 <img id="thumbnailPreview" src="<?= $article['thumbnail'] ?>" width="200px">
                                 <?php
-                                  if (isset($_SESSION['upload_status']) && $_SESSION['upload_status'][0] == false) {
-                                      foreach ($_SESSION['upload_status'][1] as $error) {
-                                          echo '<div class="text-danger">' . $error . '</div>';
+                                  if (isset($_SESSION['upload_status'])) {
+                                    if($_SESSION['upload_status'][0]==false){
+                                        foreach ($_SESSION['upload_status'][1] as $error) {
+                                            echo '<div class="text-danger">' . $error . '</div>';
+                                        }
                                       }
-                                      unset($_SESSION['upload_status']);
-                                  }
+                                    }
                                 ?>                
                               </div>                                    
                             </div>     
@@ -102,6 +103,8 @@
     <script src="views/toastr/toastr.min.js"></script>
     <?php 
       unset($_SESSION['old_input']); 
+      unset($_SESSION['errorMessages']); 
+      unset($_SESSION['upload_status']); 
     ?>
 </body>
 
