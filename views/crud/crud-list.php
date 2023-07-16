@@ -21,7 +21,7 @@
                       <div class="card-body p-4">
                         <div class="search-box">
                           <h5 class="card-title fw-semibold mb-4">Danh sách bài viết</h5>
-                          <?php if ($_SESSION['is_logged_in']): ?>
+                          <?php if (isset($_SESSION['is_logged_in'])): ?>
                             <a href="index.php?mod=article&act=create" class="btn btn-success">Thêm</a>
                           <?php endif; ?>
                         </div>                
@@ -82,7 +82,7 @@
                                   <p class="mb-0 fw-normal"><?= $item['update_at'] ?></p>
                                 </td>
                                 <td class="border-bottom-0" style="width:160px;">
-                                <?php if ($_SESSION['is_logged_in']): ?>
+                                <?php if (isset($_SESSION['is_logged_in'])): ?>
                                   <a href="index.php?mod=article&act=edit&id=<?= $item['id'] ?>" class="btn btn-info">Xem</a>
                                   <a id="delete" href="index.php?mod=article&act=delete&id=<?= $item['id'] ?>" onclick="showAlert(event)" class="btn btn-danger">Xoá</a>
                                 <?php endif; ?>
@@ -136,7 +136,8 @@
       }
     ?>
     <?php 
-      unset($_SESSION['errorMessages']);
+      unset($_SESSION['old_input']); 
+      unset($_SESSION['errorMessages']); 
       unset($_SESSION['upload_status']); 
     ?>
 </body>

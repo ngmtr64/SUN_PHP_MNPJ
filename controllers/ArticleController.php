@@ -23,8 +23,7 @@ class ArticleController extends BaseController
         $data = $_POST;
         $thumbnail="";
         $target_dir="views/assets/images/thumbnail/";
-        $file_infor = pathinfo($_FILES['thumbnail']['name']);
-        $upload = uploadFile('thumbnail' ,$target_dir , array ('jpg', 'jpeg', 'png', 'gif', 'webp'), 1);
+        $upload = uploadFile('thumbnail' ,$target_dir , array ('jpg', 'jpeg', 'png', 'gif', 'webp'), 2);
         $rules = [
             'title' => 'max:120|required',
             'author' => 'required',
@@ -55,12 +54,8 @@ class ArticleController extends BaseController
             $_SESSION['errorMessages'] = $errorMessages;
             $this->redirect('back');
         } else {
-            $target_file = $target_dir . time() . '.' . $file_infor['extension'];
-            if (move_uploaded_file($_FILES['thumbnail']["tmp_name"], $target_file)) {
-                $thumbnail=$target_file; 
-                $data['thumbnail']=$thumbnail;
-            }
-            
+            move_uploaded_file($_FILES['thumbnail']["tmp_name"], $upload[1]);
+            $data['thumbnail']= $upload[1];
             $data['date'] = date("Y-m-d H:i:s");
             $status = $this->mod_article->store($data);
             if($status) setcookie('msg','Thêm mới thành công',time()+2);
@@ -80,7 +75,7 @@ class ArticleController extends BaseController
         $id = $_POST['id'];
         $data = $_POST;
         $rules = [
-            'title' => '|required',
+            'title' => 'required',
             'author' => 'required',
             'description' => 'max:255|required',
         ];
@@ -97,17 +92,20 @@ class ArticleController extends BaseController
                 'max' => 'Mô tả không quá 255 từ'
             ],
         ];
+
         $validator = new Validator($data, $rules, $messages);
         $errors = $validator->validate();
         $errorMessages = [];
-        $upload = [];
+        $upload = array();
         if($_FILES['thumbnail']['name']){
             $target_dir="views/assets/images/thumbnail/";
-            $file_infor = pathinfo($_FILES['thumbnail']['name']);
-            $target_file=$target_dir.time().'.'.$file_infor['extension'];
-            $upload = uploadFile('thumbnail' ,$target_dir , array ('jpg', 'jpeg', 'png', 'gif', 'webp'), 1);
+            $upload = uploadFile('thumbnail' ,$target_dir , array ('jpg', 'jpeg', 'png', 'gif', 'webp'), 2);
         }
-        if (!empty($errors) || !empty($upload)) {
+        else{
+            $data['thumbnail'] = $this->mod_article->getCurrentThumbnail($id);
+            $upload[0] = true; 
+        }
+        if (!empty($errors) || !($upload[0])) {
             foreach ($errors as $field => $fieldErrors) {
                 foreach ($fieldErrors as $error) {
                     $errorMessages[$field] = $error;
@@ -118,10 +116,8 @@ class ArticleController extends BaseController
             $this->redirect('back');
         } else {
             if($_FILES['thumbnail']['name']){
-                $thumbnail = $target_file; 
-                if($thumbnail){
-                    $data['thumbnail']=$thumbnail;
-                }
+                move_uploaded_file($_FILES['thumbnail']["tmp_name"], $upload[1]);
+                $data['thumbnail'] = $upload[1];
             }
             $data['update_at'] = date("Y-m-d H:i:s");
             $status = $this->mod_article->edit($data,$id);
@@ -129,6 +125,7 @@ class ArticleController extends BaseController
             else setcookie('msgf','Cập nhật thất bại',time()+2);
             $this->redirect('index.php?mod=article&act=index');
         }
+        
     }
     public function delete(){
         $id = $_GET['id'];
