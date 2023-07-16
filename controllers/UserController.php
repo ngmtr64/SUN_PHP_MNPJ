@@ -10,7 +10,17 @@ class UserController extends BaseController
         $this->mod_user=new User();
     }
     public function login(){
-        $this->view('auth/login.php');
+        if(isset($_SESSION['is_logged_in'])){
+            $this->redirect('index.php?mod=article&act=index');
+            
+        }   
+        else $this->view('auth/login.php');
+    }
+    public function register(){
+        if(isset($_SESSION['is_logged_in'])){
+            $this->redirect('index.php?mod=article&act=index');
+        }
+        else $this->view('auth/register.php');
     }
     public function authenticate() {
         $data = $_POST;
@@ -65,9 +75,6 @@ class UserController extends BaseController
                 $this->redirect('back');
             }
         }
-    }
-    public function register(){
-        $this->view('auth/register.php');
     }
     public function store(){
         $data = $_POST;
