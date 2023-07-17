@@ -33,7 +33,6 @@
                                     value="<?php echo isset($_SESSION['old_input']['email']) ? $_SESSION['old_input']['email'] : ''; ?>">
                                     <?php if (isset($_SESSION['errorMessages']['email'])): ?>
                                         <div class="text-danger"><?php echo $_SESSION['errorMessages']['email']; ?></div>
-                                        <?php unset($_SESSION['errorMessages']['email']); ?>
                                     <?php endif; ?>
                                 </div>
                                 <div class="mb-4">
@@ -42,7 +41,6 @@
                                     value="<?php echo isset($_SESSION['old_input']['password']) ? $_SESSION['old_input']['password'] : ''; ?>">
                                     <?php if (isset($_SESSION['errorMessages']['password'])): ?>
                                         <div class="text-danger"><?php echo $_SESSION['errorMessages']['password']; ?></div>
-                                        <?php unset($_SESSION['errorMessages']['password']); ?>
                                     <?php endif; ?>
                                 </div>
                                 <button type="submit" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2">Đăng ký</button>
