@@ -24,10 +24,9 @@
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Email</label>
                                 <input type="text" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                                value="<?php echo isset($_SESSION['old_input']['email']) ? $_SESSION['old_input']['email'] : ''; ?>">
+                                value="<?php echo isset($_SESSION['old_input']['email']) ? $_SESSION['old_input']['email'] : $user['email']; ?>">
                                 <?php if (isset($_SESSION['errorMessages']['email'])): ?>
                                     <div class="text-danger"><?php echo $_SESSION['errorMessages']['email']; ?></div>
-                                    <?php unset($_SESSION['errorMessages']['email']); ?>
                                 <?php endif; ?>
                             </div>
                             <div class="mb-4">
@@ -36,12 +35,11 @@
                                 value="<?php echo isset($_SESSION['old_input']['password']) ? $_SESSION['old_input']['password'] : ''; ?>">
                                 <?php if (isset($_SESSION['errorMessages']['password'])): ?>
                                     <div class="text-danger"><?php echo $_SESSION['errorMessages']['password']; ?></div>
-                                    <?php unset($_SESSION['errorMessages']['password']); ?>
                                 <?php endif; ?>
                             </div>
                             <div class="d-flex align-items-center justify-content-between mb-4">
                                 <div class="form-check">
-                                    <input class="form-check-input primary" type="checkbox" value="" id="flexCheckChecked">
+                                    <input class="form-check-input primary" type="checkbox" name="remember_me" id="flexCheckChecked">
                                     <label class="form-check-label text-dark" for="flexCheckChecked">
                                         Ghi nhớ tài khoản
                                     </label>

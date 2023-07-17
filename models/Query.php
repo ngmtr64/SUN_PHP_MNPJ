@@ -39,7 +39,7 @@
                     }
                 }
     
-                $query = "SELECT " . $sub_string . " FROM " . '`' . $table . '`';
+                $query = "SELECT " . $sub_string . " FROM " . '`' . $table . '`'."ORDER BY id DESC";
             }else{
                 exit();
             }
@@ -56,6 +56,17 @@
             $result = $this->conn->query($query);
             $row = $result->fetch_assoc();
             return $row;
+        }
+        public function getUserByToken($table,$token){
+            $query = "SELECT * from $table WHERE remember_token ='".$token."'";
+            $result = $this->conn->query($query);
+            $row = $result->fetch_assoc();
+            return $row;
+        }
+        public function remember($table,$email,$remember_token){
+            $query = "UPDATE $table SET remember_token = '".$remember_token."' WHERE email = '".$email."'";
+            $result = $this->conn->query($query);
+            return $result;
         }
         public function getThumbnail($table,$id){
             $query = "SELECT thumbnail from $table WHERE id =".$id;
@@ -96,7 +107,6 @@
             }
             $setString = trim($setString,',');
             $query .= $setString . " WHERE id = ".$id;
-            print_r($query);
             $status = $this->conn->query($query);
             return $status;
         }

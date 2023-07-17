@@ -14,7 +14,13 @@ class UserController extends BaseController
             $this->redirect('index.php?mod=article&act=index');
             
         }   
-        else $this->view('auth/login.php');
+        else 
+        {   
+            $user = $this->mod_user->getUser($_COOKIE['remember_me_token']);
+            $this->view('auth/login.php', [
+                'user' => $user,
+            ]);
+        }
     }
     public function register(){
         if(isset($_SESSION['is_logged_in'])){
@@ -54,6 +60,16 @@ class UserController extends BaseController
             if($user){
                 if(password_verify($data['password'], $user['password']))
                 {
+                    if (isset($data['remember_me'])) {
+                        $rememberMeToken = base64_encode(random_bytes(32));
+                        setcookie('remember_me_token', $rememberMeToken, time() + 60*60*24*30);
+                        $this->mod_user->saveToken($email,$rememberMeToken);
+                    }
+                    else{
+                        $rememberMeToken = base64_encode(random_bytes(32));
+                        setcookie('remember_me_token', $rememberMeToken, time() + 60*60*24);
+                        $this->mod_user->saveToken($email,$rememberMeToken);
+                    }
                     $_SESSION['is_logged_in'] = true;
 					$_SESSION['user_data'] = array(
 						"id" => $user['id'],
